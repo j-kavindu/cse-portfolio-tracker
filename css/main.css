@@ -1,3 +1,6 @@
+/* Preserve the HTML hidden attribute against component display rules. */
+[hidden] { display: none !important; }
+
 /* ============ Design tokens ============ */
 :root {
   --color-bg: #f6f6f3;
