@@ -7,7 +7,7 @@
  * works correctly under a GitHub Pages project subpath
  * (https://USERNAME.github.io/REPOSITORY/).
  */
-const CACHE_NAME = "cse-tracker-v2";
+const CACHE_NAME = "cse-tracker-v3";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
