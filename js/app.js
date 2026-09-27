@@ -884,18 +884,18 @@
   }
 
   // ---------- boot ----------
+  let starting = false;
   async function startApp() {
+    if (starting) return;
+    starting = true;
+    document.getElementById("login-screen").hidden = true;
+    document.getElementById("app-shell").hidden = false;
+    $app.textContent = "Loading your portfolio…";
     if ("serviceWorker" in navigator) {
-      try {
-        await navigator.serviceWorker.register("service-worker.js");
-      } catch (e) {
-        /* offline support is best-effort; ignore registration failures */
-      }
+      navigator.serviceWorker.register("service-worker.js").catch(() => {});
     }
     await DB.syncWithCloud();
     await loadAll();
-    document.getElementById("login-screen").hidden = true;
-    document.getElementById("app-shell").hidden = false;
     if (!location.hash) location.hash = "#/dashboard";
     navigate();
   }

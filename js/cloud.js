@@ -18,9 +18,9 @@
   }
   function collection(store) { return sdk.collection(database, "users", uid, store); }
   async function pullAll() {
-    ready(); const data = {};
-    for (const store of STORES) data[store] = (await sdk.getDocs(collection(store))).docs.map(d => d.data());
-    return data;
+    ready();
+    const snapshots = await Promise.all(STORES.map(store => sdk.getDocs(collection(store))));
+    return Object.fromEntries(STORES.map((store, i) => [store, snapshots[i].docs.map(d => d.data())]));
   }
   async function pushRecord(store, record) { ready(); await sdk.setDoc(sdk.doc(collection(store), key(store, record)), record); }
   async function deleteRecord(store, value) { ready(); await sdk.deleteDoc(sdk.doc(collection(store), String(value))); }

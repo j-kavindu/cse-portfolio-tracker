@@ -25,5 +25,15 @@ cloud.setUser('firebase-uid-123');
   assert.equal(writes[0][0], 'db/users/firebase-uid-123/transactions/42');
   assert.equal(writes[0][1].id, 42);
   assert.equal(writes[1][0], writes[0][0]);
+  let inFlight = 0, peak = 0;
+  sdk.getDocs = async () => {
+    peak = Math.max(peak, ++inFlight);
+    await new Promise(resolve => setTimeout(resolve, 5));
+    inFlight--;
+    return { docs: [] };
+  };
+  const empty = await cloud.pullAll();
+  assert.equal(Object.keys(empty).length, 7);
+  assert.equal(peak, 7, 'Firestore collections should load concurrently');
   console.log('Cloud key/UID checks passed.');
 })().catch(e => { console.error(e); process.exitCode = 1; });

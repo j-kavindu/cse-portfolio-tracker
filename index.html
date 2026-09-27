@@ -68,9 +68,11 @@
 if (window.Cloud.isConfigured()) {
   try {
     const version = "12.19.0";
-    const appSdk = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`);
-    const authSdk = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`);
-    const dbSdk = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`);
+    const [appSdk, authSdk, dbSdk] = await Promise.all([
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`)
+    ]);
     const app = appSdk.initializeApp(window.APP_CONFIG.firebase);
     const auth = authSdk.getAuth(app);
     await authSdk.setPersistence(auth, authSdk.browserLocalPersistence);

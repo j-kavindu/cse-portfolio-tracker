@@ -158,9 +158,8 @@
   }
 
   async function getAllData() {
-    const data = {};
-    for (const s of STORES) data[s] = await getAll(s);
-    return data;
+    const rows = await Promise.all(STORES.map(getAll));
+    return Object.fromEntries(STORES.map((store, i) => [store, rows[i]]));
   }
 
   async function localReplace(data) {
