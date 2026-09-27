@@ -12,13 +12,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/main.css?v=3" />
+<link rel="stylesheet" href="css/main.css?v=4" />
 <style>[hidden] { display: none !important; }</style>
 
 </head>
 <body>
 
-<div id="login-screen" class="login-screen">
+<div id="auth-loading" class="auth-loading" role="status" aria-live="polite">Opening your portfolio…</div>
+<div id="login-screen" class="login-screen" hidden>
   <div class="login-card">
     <div class="login-icon" aria-hidden="true">📈</div>
     <h1>CSE Portfolio Tracker</h1>
@@ -38,12 +39,19 @@
     <a class="nav-link" data-route="dashboard" href="#/dashboard"><span class="nav-icon" aria-hidden="true">🏠</span><span class="nav-text">Dashboard</span></a>
     <a class="nav-link" data-route="transactions" href="#/transactions"><span class="nav-icon" aria-hidden="true">🧾</span><span class="nav-text">Transactions</span></a>
     <a class="nav-link" data-route="holdings" href="#/holdings"><span class="nav-icon" aria-hidden="true">📊</span><span class="nav-text">Holdings</span></a>
-    <a class="nav-link" data-route="dividends" href="#/dividends"><span class="nav-icon" aria-hidden="true">💰</span><span class="nav-text">Dividends</span></a>
-    <a class="nav-link" data-route="targets" href="#/targets"><span class="nav-icon" aria-hidden="true">🎯</span><span class="nav-text">Stop Loss &amp; Targets</span></a>
-    <a class="nav-link" data-route="cashflow" href="#/cashflow"><span class="nav-icon" aria-hidden="true">💵</span><span class="nav-text">Cash Flow</span></a>
-    <a class="nav-link" data-route="settings" href="#/settings"><span class="nav-icon" aria-hidden="true">⚙️</span><span class="nav-text">Settings</span></a>
+    <a class="nav-link nav-extra" data-route="dividends" href="#/dividends"><span class="nav-icon" aria-hidden="true">💰</span><span class="nav-text">Dividends</span></a>
+    <a class="nav-link nav-extra" data-route="targets" href="#/targets"><span class="nav-icon" aria-hidden="true">🎯</span><span class="nav-text">Stop Loss &amp; Targets</span></a>
+    <a class="nav-link nav-extra" data-route="cashflow" href="#/cashflow"><span class="nav-icon" aria-hidden="true">💵</span><span class="nav-text">Cash Flow</span></a>
+    <a class="nav-link nav-extra" data-route="settings" href="#/settings"><span class="nav-icon" aria-hidden="true">⚙️</span><span class="nav-text">Settings</span></a>
+    <button type="button" id="more-nav" class="nav-link more-nav" aria-expanded="false" aria-controls="more-menu"><span class="nav-icon" aria-hidden="true">☰</span><span class="nav-text">More</span></button>
   </nav>
 </header>
+<div id="more-menu" class="more-menu" hidden aria-label="More pages">
+  <a href="#/dividends">💰 Dividends</a>
+  <a href="#/targets">🎯 Stop Loss &amp; Targets</a>
+  <a href="#/cashflow">💵 Cash Flow</a>
+  <a href="#/settings">⚙️ Settings</a>
+</div>
 
 <main id="app" aria-live="polite"></main>
 
@@ -78,7 +86,11 @@ if (window.Cloud.isConfigured()) {
     await authSdk.setPersistence(auth, authSdk.browserLocalPersistence);
     Cloud.init(dbSdk, dbSdk.getFirestore(app));
     Auth.setup(authSdk, auth);
-  } catch (error) { document.getElementById("auth-error").textContent = "Firebase could not start: " + error.message; }
+  } catch (error) {
+    document.getElementById("auth-loading").hidden = true;
+    document.getElementById("login-screen").hidden = false;
+    document.getElementById("auth-error").textContent = "Firebase could not start: " + error.message;
+  }
 }
 </script>
 </body>
