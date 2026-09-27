@@ -13,9 +13,9 @@ This is a static portfolio tracker using Firebase Authentication, Cloud Firestor
 
 Please do **not** post exploit details, account information, portfolio data, credentials, screenshots containing private information, or proof-of-concept code in a public issue.
 
-Private vulnerability reporting is not currently enabled for this repository. To request a private reporting channel, [open a GitHub issue](https://github.com/j-kavindu/cse-portfolio-tracker/issues/new) titled **Security contact request**, with no technical details beyond a general category. The maintainer can then provide a private channel for the report. If a **Report a vulnerability** button becomes available on the repository's [Advisories page](https://github.com/j-kavindu/cse-portfolio-tracker/security/advisories), use that instead.
+Use **Report a vulnerability** on the repository's [Advisories page](https://github.com/j-kavindu/cse-portfolio-tracker/security/advisories) to submit a private vulnerability report to the maintainers. Do not use a public issue for a security report.
 
-Once a private channel is established, include the affected URL or commit, steps to reproduce, expected and actual behavior, potential impact, and a minimal test case with invented data. Please test only accounts and data you own. Do not access other users' portfolios or disrupt the live service.
+In your private report, include the affected URL or commit, steps to reproduce, expected and actual behavior, potential impact, and a minimal test case with invented data. Please test only accounts and data you own. Do not access other users' portfolios or disrupt the live service.
 
 The maintainer will review the report, investigate, and coordinate a fix and disclosure where appropriate. No fixed response or resolution time is promised.
 
