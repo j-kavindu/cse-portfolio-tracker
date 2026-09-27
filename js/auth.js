@@ -8,7 +8,11 @@
   }
   function init(cb) {
     callback = cb;
-    if (!configured()) return renderButton(document.getElementById("google-signin-button"));
+    if (!configured()) {
+      document.getElementById("auth-loading").hidden = true;
+      document.getElementById("login-screen").hidden = false;
+      return;
+    }
     // module bootstrap supplies the SDK asynchronously.
     if (auth) sdk.onAuthStateChanged(auth, onState, onError);
   }
@@ -16,9 +20,17 @@
   function onState(user) {
     currentUser = canonical(user);
     if (user) callback && callback(currentUser);
-    else { document.getElementById("app-shell").hidden = true; document.getElementById("login-screen").hidden = false; }
+    else {
+      document.getElementById("auth-loading").hidden = true;
+      document.getElementById("app-shell").hidden = true;
+      document.getElementById("login-screen").hidden = false;
+    }
   }
-  function onError(error) { showError(error); }
+  function onError(error) {
+    document.getElementById("auth-loading").hidden = true;
+    document.getElementById("login-screen").hidden = false;
+    showError(error);
+  }
   function showError(e) {
     const el = document.getElementById("auth-error");
     if (el) el.textContent = e.message || String(e);
