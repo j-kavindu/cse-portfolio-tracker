@@ -7,20 +7,20 @@
  * works correctly under a GitHub Pages project subpath
  * (https://USERNAME.github.io/REPOSITORY/).
  */
-const CACHE_NAME = "cse-tracker-v6";
+const CACHE_NAME = "cse-tracker-v7";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./css/main.css?v=4",
+  "./css/main.css?v=7",
   "./js/config.js",
-  "./js/auth.js",
+  "./js/auth.js?v=7",
   "./js/cloud.js",
   "./js/pwa.js",
   "./js/calculator.js",
   "./js/db.js",
   "./js/charts.js",
   "./js/demo.js",
-  "./js/app.js",
+  "./js/app.js?v=7",
   "./manifest.json",
   "./assets/icon.svg",
 ];
