@@ -4,11 +4,21 @@ An offline-first, installable web app for tracking a Colombo Stock Exchange (CSE
 portfolio — transactions, holdings, dividends, cash flow, sector allocation, and
 stop-loss/target levels. Rebuilt from an Excel workbook (`CSE Offline Excel
 Portfolio Tracker`) into a mobile-friendly PWA that runs as a static site,
-with no backend and no paid services required.
+with a static GitHub Pages frontend and Firebase Authentication/Firestore for account sync.
 
 **All prices are entered manually.** This app has no connection to any live CSE
 data feed. It is a ledger, not a trading platform, and nothing in it is
 investment advice.
+
+**[Open the live app](https://j-kavindu.github.io/cse-portfolio-tracker/)** · [View the source](https://github.com/j-kavindu/cse-portfolio-tracker)
+
+## Mobile preview
+
+Screenshots from the mobile app. Portfolio values and prices are manually entered; they are not a live market feed.
+
+<img src="assets/cse-mobile-dashboard.jpg" alt="Mobile CSE Portfolio Tracker dashboard with portfolio totals and growth chart" width="360" />
+
+<img src="assets/cse-mobile-charts.jpg" alt="Mobile charts showing sector allocation and invested value versus portfolio value" width="360" />
 
 ---
 
