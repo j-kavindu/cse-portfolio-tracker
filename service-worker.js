@@ -7,11 +7,11 @@
  * works correctly under a GitHub Pages project subpath
  * (https://USERNAME.github.io/REPOSITORY/).
  */
-const CACHE_NAME = "cse-tracker-v3";
+const CACHE_NAME = "cse-tracker-v4";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./css/main.css",
+  "./css/main.css?v=3",
   "./js/config.js",
   "./js/auth.js",
   "./js/cloud.js",
