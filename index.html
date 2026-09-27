@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>CSE Portfolio Tracker</title>
+<meta name="description" content="Offline-first Colombo Stock Exchange portfolio tracker — transactions, holdings, dividends, and cash flow, synced through your Google account with a local offline cache." />
+<meta name="theme-color" content="#1f4e4a" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/icon-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/main.css" />
+
+</head>
+<body>
+
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-icon" aria-hidden="true">📈</div>
+    <h1>CSE Portfolio Tracker</h1>
+    <p class="login-sub">Manual-price, offline-first portfolio ledger for the Colombo Stock Exchange.</p>
+    <div id="google-signin-button" class="google-signin-slot"></div><p id="auth-error" role="alert"></p>
+    <p class="login-fineprint">With Firebase configured, your portfolio syncs to your Google account and stays available offline on this device. Local demo data remains on this device.</p>
+  </div>
+</div>
+
+<div id="app-shell" class="app-shell" hidden>
+<header class="app-header">
+  <div class="brand-row">
+    <div><span class="brand">CSE Portfolio Tracker</span><br /><span class="brand-tag">Manual-price, offline-first portfolio ledger</span></div>
+    <div><span id="sync-status" role="status"></span> <button id="install-app" class="btn btn-secondary btn-sm" hidden>Install App</button><div id="ios-install-hint" hidden>On iPhone: Share → Add to Home Screen <button id="dismiss-ios-hint" type="button">Dismiss</button></div></div><div id="user-badge" class="user-badge"></div>
+  </div>
+  <nav class="main-nav" aria-label="Primary">
+    <a class="nav-link" data-route="dashboard" href="#/dashboard"><span class="nav-icon" aria-hidden="true">🏠</span><span class="nav-text">Dashboard</span></a>
+    <a class="nav-link" data-route="transactions" href="#/transactions"><span class="nav-icon" aria-hidden="true">🧾</span><span class="nav-text">Transactions</span></a>
+    <a class="nav-link" data-route="holdings" href="#/holdings"><span class="nav-icon" aria-hidden="true">📊</span><span class="nav-text">Holdings</span></a>
+    <a class="nav-link" data-route="dividends" href="#/dividends"><span class="nav-icon" aria-hidden="true">💰</span><span class="nav-text">Dividends</span></a>
+    <a class="nav-link" data-route="targets" href="#/targets"><span class="nav-icon" aria-hidden="true">🎯</span><span class="nav-text">Stop Loss &amp; Targets</span></a>
+    <a class="nav-link" data-route="cashflow" href="#/cashflow"><span class="nav-icon" aria-hidden="true">💵</span><span class="nav-text">Cash Flow</span></a>
+    <a class="nav-link" data-route="settings" href="#/settings"><span class="nav-icon" aria-hidden="true">⚙️</span><span class="nav-text">Settings</span></a>
+  </nav>
+</header>
+
+<main id="app" aria-live="polite"></main>
+
+<footer class="app-footer">
+  CSE Portfolio Tracker — portfolio data is cached locally and synced when signed in. Prices are entered manually; this app
+  does not connect to any live market data feed. Not investment advice.
+</footer>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/db.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pwa.js"></script>
+<script type="module">
+if (window.Cloud.isConfigured()) {
+  try {
+    const version = "12.19.0";
+    const appSdk = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`);
+    const authSdk = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`);
+    const dbSdk = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`);
+    const app = appSdk.initializeApp(window.APP_CONFIG.firebase);
+    const auth = authSdk.getAuth(app);
+    await authSdk.setPersistence(auth, authSdk.browserLocalPersistence);
+    Cloud.init(dbSdk, dbSdk.getFirestore(app));
+    Auth.setup(authSdk, auth);
+  } catch (error) { document.getElementById("auth-error").textContent = "Firebase could not start: " + error.message; }
+}
+</script>
+</body>
+</html>
