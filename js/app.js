@@ -115,11 +115,32 @@
   }
 
   function navigate() {
+    if (document.getElementById("app-shell").hidden) return;
     const route = currentRoute();
     document.querySelectorAll(".nav-link").forEach((a) => a.classList.toggle("active", a.dataset.route === route));
+    document.getElementById("more-nav").classList.toggle("active", ["dividends", "targets", "cashflow", "settings"].includes(route));
+    closeMoreMenu();
     ROUTES[route]();
     $app.querySelector("h1")?.focus();
   }
+
+  const moreButton = document.getElementById("more-nav");
+  const moreMenu = document.getElementById("more-menu");
+  function closeMoreMenu() {
+    moreMenu.hidden = true;
+    moreButton.setAttribute("aria-expanded", "false");
+  }
+  moreButton.addEventListener("click", () => {
+    moreMenu.hidden = !moreMenu.hidden;
+    moreButton.setAttribute("aria-expanded", String(!moreMenu.hidden));
+  });
+  moreMenu.addEventListener("click", (event) => { if (event.target.closest("a")) closeMoreMenu(); });
+  document.addEventListener("click", (event) => {
+    if (!moreMenu.hidden && !moreMenu.contains(event.target) && !moreButton.contains(event.target)) closeMoreMenu();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !moreMenu.hidden) { closeMoreMenu(); moreButton.focus(); }
+  });
 
   window.addEventListener("hashchange", navigate);
 
@@ -888,6 +909,7 @@
   async function startApp() {
     if (starting) return;
     starting = true;
+    document.getElementById("auth-loading").hidden = true;
     document.getElementById("login-screen").hidden = true;
     document.getElementById("app-shell").hidden = false;
     $app.textContent = "Loading your portfolio…";
