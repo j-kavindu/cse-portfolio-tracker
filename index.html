@@ -76,13 +76,17 @@
 if (window.Cloud.isConfigured()) {
   try {
     const version = "12.19.0";
-    const [appSdk, authSdk, dbSdk] = await Promise.all([
+    const [appSdk, authSdk, dbSdk, analyticsSdk] = await Promise.all([
       import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`),
       import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`),
-      import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`)
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-analytics.js`)
     ]);
     const app = appSdk.initializeApp(window.APP_CONFIG.firebase);
     const auth = authSdk.getAuth(app);
+    if (window.APP_CONFIG.firebase.measurementId && await analyticsSdk.isSupported()) {
+      analyticsSdk.getAnalytics(app);
+    }
     await authSdk.setPersistence(auth, authSdk.browserLocalPersistence);
     Cloud.init(dbSdk, dbSdk.getFirestore(app));
     Auth.setup(authSdk, auth);
